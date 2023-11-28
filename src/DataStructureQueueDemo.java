@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class DataStructureQueue {
+public class DataStructureQueueDemo {
     public static void main(String[] args) {
 
         /* We cannot create an instance of a Queue

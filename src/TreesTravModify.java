@@ -54,23 +54,29 @@ public class TreesTravModify<T> {
     }
 
     public static void levelorder(Node<?> n) {
-        Queue<Node<?>> nodequeue = new LinkedList<>();
+        Queue<NodeWithLevel<?>> nodequeue = new LinkedList<>();
         if (n != null) {
-            nodequeue.add(n);
+            nodequeue.add(new NodeWithLevel<>(n, 1));
+            int currentLevel = 0;
             while (!nodequeue.isEmpty()) {
-                Node<?> next = nodequeue.remove();
-                System.out.print(next.data + " ");
-                if (next.getLeft() != null) {
-                    nodequeue.add(next.getLeft());
+                NodeWithLevel<?> next = nodequeue.remove();
+                if (next.level != currentLevel) {
+                    System.out.print("\nLevel " + next.level + ": ");
+                    currentLevel = next.level;
                 }
-                if (next.getRight() != null) {
-                    nodequeue.add(next.getRight());
+                System.out.print(next.node.data + " ");
+                if (next.node.getLeft() != null) {
+                    nodequeue.add(new NodeWithLevel<>(next.node.getLeft(), next.level + 1));
+                }
+                if (next.node.getRight() != null) {
+                    nodequeue.add(new NodeWithLevel<>(next.node.getRight(), next.level + 1));
                 }
             }
         }
     }
 
     public static void main(String[] args) {
+
         Node<Integer> one = new Node<>(1);
         Node<Integer> two = new Node<>(2);
         Node<Integer> three = new Node<>(3);
@@ -90,6 +96,7 @@ public class TreesTravModify<T> {
         six.setLeft(eight);
         six.setRight(nine);
 
+
         System.out.print("Preorder: ");
         preorder(one);
         System.out.println();
@@ -99,8 +106,18 @@ public class TreesTravModify<T> {
         System.out.print("Post Order: ");
         postorder(one);
         System.out.println();
-        System.out.print("Level Order: ");
+        System.out.println("Level Order:");
         levelorder(one);
         System.out.println();
+    }
+
+    public static class NodeWithLevel<T> {
+        public Node<T> node;
+        public int level;
+
+        public NodeWithLevel(Node<T> node, int level) {
+            this.node = node;
+            this.level = level;
+        }
     }
 }
